@@ -1,0 +1,43 @@
+name: Publicar en Google Apps Script
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Clasp
+        run: npm install -g @google/clasp
+
+      - name: Configurar credenciales de Clasp
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+        run: |
+          echo "$CLASPRC_JSON" > ~/.clasprc.json
+          chmod 600 ~/.clasprc.json
+
+      - name: Subir y Desplegar
+        env:
+          SCRIPT_ID: ${{ secrets.SCRIPT_ID }}
+          DEPLOYMENT_ID: ${{ secrets.DEPLOYMENT_ID }}
+        run: |
+          cd proyecto
+          echo "{\"scriptId\":\"$SCRIPT_ID\",\"rootDir\":\"\"}" > .clasp.json
+          clasp push --force
+          if [ -n "$DEPLOYMENT_ID" ]; then
+            clasp deploy -i "$DEPLOYMENT_ID" --description "Actualización automática desde GitHub"
+          else
+            clasp deploy --description "Despliegue automático"
+          fi
