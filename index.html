@@ -39,6 +39,30 @@
   .chip-p1-online { font-size: 10px !important; padding: 2px 7px !important; }
 }
 
+/* Dropdown de presencia en línea */
+.presencia-wrap{position:relative;display:inline-block}
+.presencia-wrap .chip-p1-online{cursor:pointer;user-select:none;transition:all .2s ease}
+.presencia-wrap:hover .chip-p1-online,.presencia-wrap.activo .chip-p1-online{background:rgba(255,255,255,.16)!important;border-color:rgba(61,220,132,.5)!important}
+.pres-drop-caret{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2.2;margin-left:2px;transition:transform .25s ease}
+.presencia-wrap:hover .pres-drop-caret,.presencia-wrap.activo .pres-drop-caret{transform:rotate(180deg)}
+.salfa-presencia-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:310px;max-width:90vw;background:#1E2229;border:1px solid rgba(255,255,255,.16);border-top:3px solid #B01E24;border-radius:12px;box-shadow:0 18px 38px -10px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.3);padding:0;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-6px);transition:opacity .2s ease,transform .2s ease,visibility .2s ease;z-index:99999;text-align:left}
+.presencia-wrap:hover .salfa-presencia-dropdown,.presencia-wrap.activo .salfa-presencia-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)}
+.pres-drop-header{padding:10px 14px;background:rgba(0,0,0,.24);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between}
+.pres-drop-tit{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;color:#fff;letter-spacing:.08em;text-transform:uppercase}
+.pres-drop-sub{font-size:10.5px;color:#9AA2AB;margin-top:1px}
+.pres-drop-badge{background:rgba(61,220,132,.18);border:1px solid rgba(61,220,132,.35);color:#3ddc84;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase}
+.pres-drop-list{max-height:220px;overflow-y:auto;padding:4px 0}
+.pres-user-item{display:flex;align-items:center;gap:10px;padding:7px 14px;transition:background .15s ease}
+.pres-user-item:hover{background:rgba(255,255,255,.05)}
+.pres-user-av{width:28px;height:28px;border-radius:50%;color:#fff;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;display:grid;place-items:center;flex:none;border:1.5px solid rgba(255,255,255,.2)}
+.pres-user-info{flex:1;min-width:0}
+.pres-user-name{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pres-user-mail{font-size:10.5px;color:#9AA2AB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pres-user-tag{font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:#E23B42;margin-top:1px;display:flex;align-items:center;gap:4px}
+.pres-user-dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 2px rgba(61,220,132,.35);flex:none}
+.pres-drop-foot{padding:7px 14px;border-top:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.15);font-size:10.5px;color:#8A929B;display:flex;align-items:center;gap:6px}
+.pv-static{width:6px;height:6px;border-radius:50%;background:#3ddc84}
+
 .portal-main-area {
   flex: 1 1 0;
   min-height: 0;
@@ -165,7 +189,7 @@
       <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0yLjAwIC0yLjAwIDY3OC45NCA4OC44OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJTYWxmYSBNb250YWplcyI+PHRpdGxlPlNhbGZhIE1vbnRhamVzPC90aXRsZT48cGF0aCBmaWxsPSIjQjAxRTI0IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xLjUzIDU0LjA5TDIwLjAyIDUzLjlMMjEuMjMgNjkuODFDMjMuMzUgNzEuODIgMjYuNTcgNzAuODQgMjcuNDcgNjguMDJDMjguMzIgNjUuMzUgMjcuOTggNTguNjkgMjYuNTQgNTYuMjVDMjUuMzIgNTQuMTggMjMuMjQgNTMuMyAyMS40OCA1MS45M0MyMC41MiA1MS4xOCAxOS42OCA1MC4yMyAxOC42NiA0OS41MUMxMy4wMSA0NS41MyA1LjY0IDQyLjIxIDIuMzEgMzUuODVDLTAuMDggMzEuMjcgMC4yNSAyNi4wNCAwLjEgMjEuMDVDLTAuMDEgMTcuNTIgMC4yNiAxMy40MiAxLjk5IDEwLjNDOC4yMSAtMC45IDI0LjMgLTEuNDQgMzUuMDEgMi41M0MzNi41NCAzLjEgMzguNTEgMy41NyAzOS44MyA0LjU5QzQ1LjU1IDguOTcgNDYuMjcgMTUuNjIgNDYgMjIuNDNDNDUuOTMgMjQuMDkgNDYuNTMgMjUuMjggNDUuMzUgMjYuNjVMMjcuNDYgMjYuNjlDMjQuODMgMjQuMzQgMjguNzUgMTYuNjMgMjQuNjYgMTQuNjNDMTguNDQgMTEuNTYgMTkuMzIgMjQuNjkgMjEuNjQgMjcuNjVDMjQuODIgMzEuNzMgMzkuNTggMzcuNzcgNDQuMzkgNDUuMDJDNDcuNzIgNTAuMDQgNDcuOTggNTkuMDcgNDcuODUgNjQuOTJDNDcuNzYgNjguOTMgNDcuMjEgNzMuOTIgNDQuNzMgNzcuMjhDMzcuNTEgODcuMDYgMTMuMiA4Ny4yNCA1LjM3IDc4LjE3QzUuMDMgNzcuNzggNC45OSA3Ny4yNSA0LjcgNzYuODRDNC40NCA3Ni40NyAzLjk4IDc2LjMxIDMuNzQgNzUuOTNDMS43NyA3Mi44NiAxLjE3IDY4LjkgMS4wNSA2NS4zM0MwLjk3IDYyLjU3IC0wLjEyIDU2LjIxIDEuNTMgNTQuMDlaTTgwLjg0IDgzLjEzTDc5Ljk1IDY4LjMzTDcyLjYzIDY4LjZMNzEuMTcgODMuMTFMNDkuNDYgODMuMUw2MC4wNiAxLjlMOTAuNDcgMS45NkwxMDIuMzQgODMuMUw4MC44NCA4My4xM1pNMTA1Ljg2IDgzLjEyTDEwNS44NiAxLjkzTDEyNi43MyAxLjkzTDEyNi43MyA2Ni44M0wxMzkuNTYgNjYuNzZMMTM5LjYyIDgzLjE1TDEwNS44NiA4My4xMlpNMTQ0LjM0IDgzLjE0TDE0NC4yNyAxLjkzTDE3OS45MiAxLjkzTDE3OS44NSAxOC41NEwxNjUuNDkgMTguNTFMMTY1LjMyIDMzLjcyTDE3OC4zMyAzMy41OUwxNzguMzQgNDkuMThMMTY1LjQ1IDQ5LjA4TDE2NS40NCA4My4xM0wxNDQuMzQgODMuMTRaTTE3Ny45NCA4My4wOUwxODguNjYgMS45TDIxOC45MiAxLjk4TDIzMC45NiA4My4wOUwyMDkuMzggODMuMDlMMjA4LjA2IDY4LjM3TDIwMS4wNiA2OC41M0wxOTkuNzcgODMuMDlMMTc3Ljk0IDgzLjA5Wk0yMDcuNjEgNTQuMTZMMjA0LjQzIDI1LjA2TDIwMC4zOCA1NC4xOEwyMDcuNjEgNTQuMTZaTTc5LjAzIDUzLjg2TDc2LjI3IDI1Ljc5TDcyLjE0IDU0LjQ2TDc5LjAzIDUzLjg2WiIvPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTY2My4xMiAyNi4wNEM2NDYuMDkgMjcuMzcgNjQ0LjE4IDEuMiA2NjAuOTggMC4wNUM2NzguMTIgLTEuMTMgNjc5Ljc1IDI0Ljc0IDY2My4xMiAyNi4wNFpNMzMyLjg4IDg0LjhDMzIyLjQxIDg1LjMzIDMxMC44OSA4MS4zNyAzMDcuNyA3MC4zNEMzMDUuNjggNjMuMzUgMzA2LjQ1IDQ5LjU1IDMwNi40NSA0MS45MkMzMDYuNDUgMjIuNTIgMzAzLjM1IDIuNzMgMzI4LjUxIDAuNDRDMzMyLjg1IDAuMDQgMzM3LjQ2IDAuNzUgMzQxLjUyIDIuMjdDMzUyLjUxIDYuMzcgMzU0LjE1IDE0LjM3IDM1NC43MiAyNC45MkMzNTUuMDYgMzEuMTEgMzU0Ljg2IDM3LjM1IDM1NC44NiA0My41NUMzNTQuODYgNTEuMzYgMzU1Ljc3IDYyLjk2IDM1My42NSA3MC4zM0MzNTEgNzkuNTQgMzQxLjk0IDg0LjM0IDMzMi44OCA4NC44Wk01ODkuNTcgNTQuMjVMNjA3LjA0IDUzLjk4QzYwNy41MyA1NC4xNiA2MDcuOTQgNTQuMTcgNjA4LjIzIDU0LjY4QzYwOS44MSA1Ny41MiA2MDYuNDYgNjguMjYgNjEwLjUzIDcwLjYzQzYxMS4yMyA3MS4wNCA2MTIuMDMgNzAuOTYgNjEyLjggNzAuODVDNjE3Ljc4IDcwLjEgNjE2LjQgNTguNjkgNjE0LjUgNTUuNjZDNjEzLjU2IDU0LjE3IDYxMS44MiA1My4xNCA2MTAuNDQgNTIuMUM2MDEuNjMgNDUuNDMgNTkwLjQ3IDQxLjMzIDU4OC43NCAyOS4wNUM1ODguMjcgMjUuNzIgNTg4LjIgMjIuNCA1ODguNSAxOS4wNUM1ODguODIgMTUuNTMgNTg5LjE3IDEyLjE3IDU5MC45OSA5LjA0QzU5Ny40MSAtMiA2MjEuNTYgLTIuMzEgNjMwLjAxIDYuMjdDNjM0LjI3IDEwLjYgNjM1LjExIDIwLjE1IDYzNC40NyAyNS45TDYxNC45OCAyNi44TDYxNCAxNS40MUM2MDguNTUgMTAuMDkgNjA2LjQxIDIyLjM5IDYwOS4zMiAyNi43MUM2MTIuNTcgMzEuNTIgNjI2LjUyIDM3LjA4IDYzMS45NCA0NC4yMkM2MzYuMiA0OS44MyA2MzYuMjMgNTcuNzEgNjM2LjEzIDY0LjQyQzYzNi4wNyA2OC4zMSA2MzUuNzMgNzIuODcgNjMzLjU3IDc2LjI1QzYyNi4wNyA4OCA2MDAuMyA4Ny41OSA1OTIuNCA3Ni41MUM1OTAuMTEgNzMuMyA1ODkuMyA2OC43OCA1ODkuMSA2NC45MkM1ODguOTggNjIuNTMgNTg4LjM0IDU2LjAzIDU4OS41NyA1NC4yNVpNNjYzLjUgMjQuMDVDNjc3LjgyIDIyLjI2IDY3NC41IC0wLjQ1IDY2MC42NSAxLjk1QzY0Ni4yNSA0LjQ1IDY0OS4zNyAyNS44MSA2NjMuNSAyNC4wNVpNMjgwLjM1IDgzLjE3TDI3OS44MyAzNi44M0wyNzMuMzEgODMuMTZMMjYwLjIgODMuMThMMjUzLjE5IDM3LjQ4TDI1Mi42OSA4My4xN0wyMzQuMTcgODMuMTdMMjM0LjE2IDIuMDRMMjYxLjY1IDIuMDNMMjY2LjY2IDM1LjkyTDI3MS40MiAyLjAzTDI5OC45NiAyLjAzTDI5OC45NiA4My4xNkwyODAuMzUgODMuMTdaTTM5MC44MSA4My4xNkwzODAuNTQgNDkuNDVMMzgwLjExIDgzLjE3TDM2Mi41NyA4My4xOEwzNjIuNTcgMi4wM0wzODAuMSAyLjA0TDM5MS40MiAzNS44TDM5MS43NyAyLjA0TDQwOS4zMyAyLjAyTDQwOS4zMyA4My4xOEwzOTAuODEgODMuMTZaTTQyNi4yMSA4My4xOEw0MjYuMTkgMTguNDZMNDEzLjk1IDE4LjQ1TDQxMy45NCAyLjAzTDQ1OS43OSAyLjAzTDQ1OS44IDE4LjQ1TDQ0Ny4yOSAxOC40NUw0NDcuMjggODMuMThMNDI2LjIxIDgzLjE4Wk00ODYuODUgODMuMTdMNDg1LjcxIDY4LjU4TDQ3OC40NyA2OC41TDQ3Ny4yMyA4My4xN0w0NTUuNDIgODMuMThMNDY2LjA2IDIuMDNMNDk2LjM5IDIuMDNMNTA4LjM5IDgzLjE3TDQ4Ni44NSA4My4xN1pNNTExLjcxIDgzLjA4TDUxMC44OSA2OS4wNEw1MTguOTggNjguNUw1MTguOTggMi4wMkw1MzkuMSAyLjE4QzU0MC43NiAzLjUzIDUzOS45MyA3Ljc2IDUzOS45MyA5LjhDNTM5LjkzIDE3LjEzIDUzOS45MyAyNC40NiA1MzkuOTMgMzEuOEM1MzkuOTMgNDIuOCA1MzkuOTMgNTMuOCA1MzkuOTMgNjQuOEM1MzkuOTMgNzAuNjMgNTQwLjE1IDc2LjgxIDUzNC45NiA4MC42NEM1MzAuNTYgODMuOSA1MTcuMTEgODMuNjQgNTExLjcxIDgzLjA4Wk01NDcuOCA4My4xN0w1NDcuOCAyLjAzTDU4Mi44NiAyLjAzTDU4Mi44MSAxOC40Nkw1NjguODcgMTguNDVMNTY4Ljg4IDMzLjU3TDU4MS45MSAzMy41OUw1ODEuOTIgNDkuMTVMNTY4Ljg3IDQ5LjEyTDU2OC44OCA2Ni42NEw1ODQuMjIgNjYuNjhMNTg0LjI1IDgzLjE3TDU0Ny44IDgzLjE3Wk02NjYuNzQgMTkuNUw2NjAuMiAxMi41MUw2NTkuNyAxOS40MUw2NTcuMDYgMTkuNTdMNjU3LjA2IDUuNzZMNjY2Ljg1IDcuMTlDNjY5LjYyIDExLjA5IDY2Ni4zOSAxMS4yOCA2NjUuNTIgMTMuOThMNjcwLjQ5IDE5LjYxTDY2Ni43NCAxOS41Wk02NjQuMTEgOC40M0w2NjAuMDggOC41MUM2NTcuOTQgMTUuMzQgNjY3LjQ3IDExLjg5IDY2NC4xMSA4LjQzWk0zMzEuMjIgNzAuODhDMzM0LjU2IDcwLjE5IDMzMy44MiA2Mi41NyAzMzMuODIgNjAuMDVDMzMzLjgyIDQ4LjU1IDMzMy44MiAzNy4wNSAzMzMuODIgMjUuNTVDMzMzLjgyIDIyLjkgMzM0LjkyIDEzLjQ1IDMzMC4xMyAxNC40M0MzMjYuNjkgMTUuMTUgMzI3LjUyIDIyLjU2IDMyNy41MiAyNS4xN0MzMjcuNTIgMzYuNjcgMzI3LjM1IDQ4LjE4IDMyNy41MiA1OS42N0MzMjcuNTYgNjIuMzkgMzI2LjM2IDcxLjg5IDMzMS4yMiA3MC44OFpNNDg1LjAyIDU0LjI5TDQ4MS45NCAyNS42OEw0NzcuOTUgNTQuMDhMNDg1LjAyIDU0LjI5WiIvPjwvc3ZnPg==" alt="Salfa Montajes" style="height:17px;width:auto">
     </a>
-    <span class="corp-top-saludo" id="topSaludoPortal" style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:12px;color:#fff;letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap">Hola, <b id="topNomUser" style="color:#ff8a8d">Sebastián</b></span>
+    <span class="corp-top-saludo" id="topSaludoPortal" style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:12px;color:#ffffff !important;letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap">Hola, <b id="topNomUser" style="color:#ffffff !important;font-weight:800">Sebastián</b></span>
     <!-- Selector de portales habilitados (Modal) -->
     <button type="button" class="btn-selector-portales" id="btnSelectorPortales" onclick="salfaAbrirMenuPortales(event)" title="Navegar directamente a otro portal">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
@@ -180,10 +204,26 @@
       <i id="dotSesionTiempo" style="width:7px;height:7px;border-radius:50%;background:#3ddc84;display:inline-block;box-shadow:0 0 0 2px rgba(61,220,132,.35);transition:background .3s,box-shadow .3s"></i>
       <span id="txtSesionTiempo">15:00</span>
     </span>
-    <span class="chip-p1-online" id="chipPresenciaP1" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">
-      <i style="width:7px;height:7px;border-radius:50%;background:#3ddc84;display:inline-block;box-shadow:0 0 0 2px rgba(61,220,132,.35)"></i>
-      <b id="p1OnlineNum">1</b> en línea
-    </span>
+    <div class="presencia-wrap" id="wrapPresenciaP1">
+      <span class="chip-p1-online" id="chipPresenciaP1" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;cursor:pointer">
+        <i style="width:7px;height:7px;border-radius:50%;background:#3ddc84;display:inline-block;box-shadow:0 0 0 2px rgba(61,220,132,.35)"></i>
+        <b id="p1OnlineNum">1</b> en este portal
+        <svg class="pres-drop-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </span>
+      <div class="salfa-presencia-dropdown" id="dropdownPresenciaP1">
+        <div class="pres-drop-header">
+          <div>
+            <div class="pres-drop-tit">COLABORADORES EN LÍNEA</div>
+            <div class="pres-drop-sub">01 · Mapa de Procesos</div>
+          </div>
+          <span class="pres-drop-badge" id="p1DropCountBadge">1 en este portal</span>
+        </div>
+        <div class="pres-drop-list" id="p1ListaUsuariosOnline"></div>
+        <div class="pres-drop-foot">
+          <i class="pv-static"></i> Sincronización en tiempo real
+        </div>
+      </div>
+    </div>
     <span class="barra-corp-badge" id="topUserRol">Administrador</span>
     <span id="topUserEmail" style="font-size:12px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></span>
   </div>
@@ -297,19 +337,99 @@ function latidoPresenciaP1(email){
     var presKey = 'salfa_presencia_mem_v1';
     var pres = {};
     try { pres = JSON.parse(localStorage.getItem(presKey)) || {}; } catch(e){}
-    var userMail = String(email || 'sjroca@salfamontajes.com').toLowerCase();
+    var u = window.__SESION_USUARIO;
+    var userMail = String((u && u.email) || email || 'sjroca@salfamontajes.com').toLowerCase();
+    var userNom = (u && u.nombre) || 'Sebastián';
+    var userRol = (u && u.rol) || 'Administrador';
     var now = Date.now();
-    pres[userMail + '|mapa'] = now;
-    Object.keys(pres).forEach(function(k){ if(now - pres[k] > 150000) delete pres[k]; });
+    
+    pres[userMail + '|mapa'] = {
+      email: userMail,
+      nombre: userNom,
+      rol: userRol,
+      portal: 'mapa',
+      portalNombre: '01 · Mapa de Procesos',
+      ts: now
+    };
+    
+    // Purgar expirados (> 120s)
+    Object.keys(pres).forEach(function(k){
+      var v = pres[k];
+      var ts = typeof v === 'number' ? v : (v && v.ts);
+      if(!ts || now - ts > 120000) delete pres[k];
+    });
     localStorage.setItem(presKey, JSON.stringify(pres));
     
-    var enMapa = 0;
+    // Contar usuarios en este portal y otros portales
+    var usuariosEnMapa = [];
+    var otrosUsuarios = [];
     Object.keys(pres).forEach(function(k){
-      if(now - pres[k] <= 150000 && k.endsWith('|mapa')) enMapa++;
+      var v = pres[k];
+      var ts = typeof v === 'number' ? v : (v && v.ts);
+      if(!ts || now - ts > 120000) return;
+      var obj = typeof v === 'object' ? v : {
+        email: k.split('|')[0],
+        nombre: k.split('|')[0].split('@')[0],
+        rol: 'Colaborador',
+        portal: k.split('|')[1] || 'hub',
+        portalNombre: k.split('|')[1] === 'mapa' ? '01 · Mapa de Procesos' : 'Hub de Pilotos',
+        ts: ts
+      };
+      if(k.endsWith('|mapa')){
+        usuariosEnMapa.push(obj);
+      } else {
+        otrosUsuarios.push(obj);
+      }
     });
-    if(enMapa === 0) enMapa = 1;
+    
+    if(usuariosEnMapa.length === 0){
+      usuariosEnMapa.push({
+        email: userMail,
+        nombre: userNom,
+        rol: userRol,
+        portal: 'mapa',
+        portalNombre: '01 · Mapa de Procesos',
+        ts: now
+      });
+    }
+    
     var countEl = document.getElementById('p1OnlineNum');
-    if(countEl) countEl.textContent = enMapa;
+    if(countEl) countEl.textContent = usuariosEnMapa.length;
+    var badgeDrop = document.getElementById('p1DropCountBadge');
+    if(badgeDrop) badgeDrop.textContent = usuariosEnMapa.length + (usuariosEnMapa.length === 1 ? ' en este portal' : ' en este portal');
+    
+    // Renderizar lista en dropdown
+    var dropList = document.getElementById('p1ListaUsuariosOnline');
+    if(dropList){
+      var html = '<div style="padding:6px 14px 2px;font-size:10.5px;letter-spacing:.08em;font-weight:700;color:#9AA2AB;text-transform:uppercase">En este portal</div>' +
+        usuariosEnMapa.map(function(item){
+          var inits = (item.nombre.replace(/[^a-zA-Z]/g,'').slice(0,2) || 'US').toUpperCase();
+          return '<div class="pres-user-item">' +
+            '<div class="pres-user-av" style="background:#B01E24">' + inits + '</div>' +
+            '<div class="pres-user-info">' +
+              '<div class="pres-user-name">' + item.nombre + '</div>' +
+              '<div class="pres-user-mail">' + item.email + '</div>' +
+              '<div class="pres-user-tag"><i class="pres-user-dot"></i> 01 · Mapa de Procesos · ' + item.rol + '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      
+      if(otrosUsuarios.length > 0){
+        html += '<div style="padding:8px 14px 2px;font-size:10.5px;letter-spacing:.08em;font-weight:700;color:#9AA2AB;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.08);margin-top:4px">En otros portales (' + otrosUsuarios.length + ')</div>' +
+          otrosUsuarios.map(function(item){
+            var inits = (item.nombre.replace(/[^a-zA-Z]/g,'').slice(0,2) || 'US').toUpperCase();
+            return '<div class="pres-user-item" style="opacity:0.8">' +
+              '<div class="pres-user-av" style="background:#3A414A">' + inits + '</div>' +
+              '<div class="pres-user-info">' +
+                '<div class="pres-user-name">' + item.nombre + '</div>' +
+                '<div class="pres-user-mail">' + item.email + '</div>' +
+                '<div class="pres-user-tag"><i class="pres-user-dot" style="background:#9AA2AB"></i> ' + item.portalNombre + ' · ' + item.rol + '</div>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+      }
+      dropList.innerHTML = html;
+    }
   } catch(e){}
 }
 
