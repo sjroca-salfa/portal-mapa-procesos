@@ -7,14 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Barra Superior Corporativa */
+/* Barra Superior Corporativa (Sticky para nunca tapar el encabezado del portal) */
 .barra-corp-top {
-  position: fixed; top: 0; left: 0; right: 0; height: 42px;
+  position: sticky; top: 0; left: 0; right: 0; height: 44px;
   background: #1E2229; color: #fff; z-index: 9999;
   display: flex; align-items: center; justify-content: space-between;
   padding: max(4px, env(safe-area-inset-top, 0px)) 16px 4px;
   font-family: 'Barlow', Arial, sans-serif; font-size: 13px;
   border-bottom: 2px solid #B01E24;
+  box-sizing: border-box;
 }
 .barra-corp-top a {
   color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px;
@@ -34,35 +35,60 @@
   .barra-corp-badge { font-size: 10px; padding: 2px 6px; }
   .chip-p1-online { font-size: 10px !important; padding: 2px 7px !important; }
 }
-body { padding-top: 42px !important; }
+body { padding-top: 0 !important; }
 
-/* Selector de Portales */
-.salfa-menu-wrap{position:relative}
+/* Selector de Portales Universal (Modal) */
 .btn-selector-portales{
   display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
   background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;
   font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;
 }
 .btn-selector-portales:hover{background:rgba(255,255,255,.2)}
-.salfa-dropdown-menu{
-  position:absolute;top:calc(100% + 6px);left:0;width:310px;max-width:90vw;
-  background:#fff;color:#1E2229;border-radius:12px;border:1px solid rgba(0,0,0,.12);
-  box-shadow:0 16px 36px -10px rgba(0,0,0,.45);z-index:999999;overflow:hidden;animation:ddFadeIn .18s ease-out;
+.salfa-modal-portales {
+  position: fixed; inset: 0; z-index: 9999999;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(15, 17, 19, 0.78); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  animation: ddModalIn .2s ease-out forwards;
 }
-@keyframes ddFadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.salfa-dd-header{padding:12px 14px;background:#1E2229;color:#fff;border-bottom:2px solid #B01E24}
-.salfa-dd-header b{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
-.salfa-dd-header span{display:block;font-size:11px;color:#aab2ba;margin-top:2px}
-.salfa-dd-list{padding:6px 0;max-height:340px;overflow-y:auto}
-.salfa-dd-item{display:flex;align-items:center;gap:10px;padding:8px 14px;text-decoration:none;color:inherit;transition:background .15s}
-.salfa-dd-item:hover:not(.off){background:#f1f5f9}
-.salfa-dd-item.activo{background:#fdf2f2;border-left:3px solid #B01E24}
-.salfa-dd-item.off{opacity:.55;cursor:not-allowed}
-.salfa-dd-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;background:#1E2229;color:#fff;font-weight:700;font-size:11px;flex:none}
-.salfa-dd-num.adm{background:#B01E24}
-.salfa-dd-num.off{background:#94a3b8}
-.salfa-dd-info{flex:1;min-width:0}
-.salfa-dd-info b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#1e293b}
+@keyframes ddModalIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+.salfa-modal-portales-dialog {
+  position: relative; width: 100%; max-width: 440px; background: #fff;
+  border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 24px 60px -15px rgba(0,0,0,0.6); overflow: hidden;
+  display: flex; flex-direction: column; max-height: calc(100dvh - 32px);
+}
+.salfa-modal-portales-header {
+  padding: 16px 20px; background: #1E2229; color: #fff;
+  display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #B01E24;
+}
+.salfa-modal-portales-header b {
+  display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+}
+.salfa-modal-portales-header span { display: block; font-size: 12px; color: #9AA2AB; margin-top: 2px; }
+.salfa-modal-portales-header .btn-close-modal {
+  background: rgba(255,255,255,.1); border: none; color: #fff; width: 32px; height: 32px;
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; transition: background .15s;
+}
+.salfa-modal-portales-header .btn-close-modal:hover { background: #B01E24; }
+.salfa-modal-portales-body { padding: 10px 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.salfa-dd-item { display: flex; align-items: center; gap: 14px; padding: 12px 20px; text-decoration: none; color: #1E2229; transition: background .15s; }
+.salfa-dd-item:hover:not(.off) { background: #f1f5f9; }
+.salfa-dd-item.activo { background: #fdf2f2; border-left: 4px solid #B01E24; }
+.salfa-dd-item.off { opacity: .55; cursor: not-allowed; }
+.salfa-dd-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 7px; background: #1E2229; color: #fff; font-weight: 700; font-size: 12px; flex: none; }
+.salfa-dd-num.adm { background: #B01E24; }
+.salfa-dd-num.off { background: #94a3b8; }
+.salfa-dd-info { flex: 1; min-width: 0; }
+.salfa-dd-info b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1e293b; }
+.salfa-dd-info span { display: block; font-size: 11px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.salfa-dd-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 999px; white-space: nowrap; flex: none; }
+.salfa-dd-tag.ok { background: #dcfce7; color: #166534; }
+.salfa-dd-tag.adm { background: #fee2e2; color: #991b1b; }
+.salfa-dd-tag.aqui { background: #e2e8f0; color: #334155; }
+.salfa-dd-tag.dev { background: #f1f5f9; color: #64748b; }
+.salfa-dd-tag.prox { background: #f8fafc; color: #94a3b8; }
+.salfa-dd-divider { height: 1px; background: #e2e8f0; margin: 6px 0; }
 .salfa-dd-info span{display:block;font-size:10.5px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .salfa-dd-tag{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:999px;white-space:nowrap;flex:none}
 .salfa-dd-tag.ok{background:#dcfce7;color:#166534}
@@ -124,58 +150,11 @@ body { padding-top: 42px !important; }
       <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       <span class="txt-volver">Volver al Hub</span>
     </a>
-    <!-- Selector desplegable de portales habilitados -->
-    <div class="salfa-menu-wrap" id="menuPortalesWrap">
-      <button type="button" class="btn-selector-portales" id="btnSelectorPortales" onclick="salfaToggleMenuPortales(event)" aria-expanded="false" title="Navegar directamente a otro portal">
-        <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
-        <span>Portales</span>
-        <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5" id="chevPortales"><path d="M6 9l6 6 6-6"/></svg>
-      </button>
-      <div class="salfa-dropdown-menu" id="dropdownPortalesMenu" style="display:none">
-        <div class="salfa-dd-header">
-          <b>Ecosistema Salfa Pilotos</b>
-          <span>Acceso directo entre portales</span>
-        </div>
-        <div class="salfa-dd-list">
-          <a href="https://sjroca-salfa.github.io/salfa-pilotos/" class="salfa-dd-item" data-p="hub">
-            <span class="salfa-dd-num">HUB</span>
-            <div class="salfa-dd-info"><b>Hub Central de Pilotos</b><span>Portal principal de acceso</span></div>
-            <span class="salfa-dd-tag ok">Hub</span>
-          </a>
-          <a href="https://sjroca-salfa.github.io/portal-mapa-procesos/" class="salfa-dd-item activo" data-p="01">
-            <span class="salfa-dd-num">01</span>
-            <div class="salfa-dd-info"><b>Mapa de Procesos</b><span>Operaciones y gestión</span></div>
-            <span class="salfa-dd-tag aqui">Aquí</span>
-          </a>
-          <a href="https://sjroca-salfa.github.io/portal-gestion-informacion/" class="salfa-dd-item" data-p="05">
-            <span class="salfa-dd-num">05</span>
-            <div class="salfa-dd-info"><b>Gestión de la Información</b><span>Series documentales O, D, P</span></div>
-            <span class="salfa-dd-tag ok">Activo</span>
-          </a>
-          <a href="https://sjroca-salfa.github.io/salfa-pilotos/admin.html" class="salfa-dd-item" id="ddItemAdmin" data-p="admin" style="display:none">
-            <span class="salfa-dd-num adm">ADM</span>
-            <div class="salfa-dd-info"><b>Consola de Administración</b><span>Gestión de accesos y métricas</span></div>
-            <span class="salfa-dd-tag adm">Admin</span>
-          </a>
-          <div class="salfa-dd-divider"></div>
-          <div class="salfa-dd-item off">
-            <span class="salfa-dd-num off">02</span>
-            <div class="salfa-dd-info"><b>Control de CV</b><span>Gestión de personas</span></div>
-            <span class="salfa-dd-tag dev">En desarrollo</span>
-          </div>
-          <div class="salfa-dd-item off">
-            <span class="salfa-dd-num off">03</span>
-            <div class="salfa-dd-info"><b>Gestión AWP & Construcción</b><span>Planificación y control</span></div>
-            <span class="salfa-dd-tag prox">Próximamente</span>
-          </div>
-          <div class="salfa-dd-item off">
-            <span class="salfa-dd-num off">04</span>
-            <div class="salfa-dd-info"><b>Indicadores OKR</b><span>Desarrollo estratégico</span></div>
-            <span class="salfa-dd-tag dev">En desarrollo</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Selector de portales habilitados (Modal) -->
+    <button type="button" class="btn-selector-portales" id="btnSelectorPortales" onclick="salfaAbrirMenuPortales(event)" title="Navegar directamente a otro portal">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>Portales</span>
+    </button>
     <span class="p1-sep" style="width:1px;height:14px;background:rgba(255,255,255,.2)"></span>
     <span class="p1-tit" style="font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:0.5px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">01 · MAPA DE PROCESOS</span>
   </div>
@@ -190,25 +169,54 @@ body { padding-top: 42px !important; }
 </div>
 <script>
 
-window.salfaToggleMenuPortales = function(ev){
+// Selector de Portales Universal (Modal)
+window.salfaAbrirMenuPortales = function(ev){
   if(ev) ev.stopPropagation();
-  var menu = document.getElementById('dropdownPortalesMenu');
-  if(!menu) return;
-  var isOpen = menu.style.display !== 'none';
-  menu.style.display = isOpen ? 'none' : 'block';
-  var chev = document.getElementById('chevPortales');
-  if(chev) chev.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-}
-
-document.addEventListener('click', function(e){
-  var wrap = document.getElementById('menuPortalesWrap');
-  var menu = document.getElementById('dropdownPortalesMenu');
-  if(menu && wrap && !wrap.contains(e.target)){
-    menu.style.display = 'none';
-    var chev = document.getElementById('chevPortales');
-    if(chev) chev.style.transform = 'rotate(0deg)';
-  }
+  var modal = document.getElementById('modalPortales');
+  if(modal) modal.style.display = 'flex';
+};
+window.salfaCerrarMenuPortales = function(){
+  var modal = document.getElementById('modalPortales');
+  if(modal) modal.style.display = 'none';
+};
+window.salfaToggleMenuPortales = function(ev){
+  var modal = document.getElementById('modalPortales');
+  if(!modal) return;
+  if(modal.style.display === 'none'){ window.salfaAbrirMenuPortales(ev); }
+  else { window.salfaCerrarMenuPortales(); }
+};
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ window.salfaCerrarMenuPortales(); }
 });
+
+// Control de Inactividad (15 minutos)
+var TIEMPO_INACTIVIDAD_MS = 15 * 60 * 1000;
+var KEY_ACTIVIDAD = 'salfa_last_activity';
+function registrarActividad(){
+  try { localStorage.setItem(KEY_ACTIVIDAD, String(Date.now())); } catch(e){}
+}
+var _lastActThrottle = 0;
+function alInteractuar(){
+  var ahora = Date.now();
+  if(ahora - _lastActThrottle > 2000){
+    _lastActThrottle = ahora;
+    registrarActividad();
+  }
+}
+['mousedown','pointerdown','keydown','touchstart','wheel','scroll'].forEach(function(ev){
+  window.addEventListener(ev, alInteractuar, {passive:true});
+});
+setInterval(function(){
+  var rawSession = localStorage.getItem('salfa_auth_session');
+  if(!rawSession) return;
+  var ultima = parseInt(localStorage.getItem(KEY_ACTIVIDAD) || '0', 10);
+  if(ultima > 0 && (Date.now() - ultima) > TIEMPO_INACTIVIDAD_MS){
+    localStorage.removeItem('salfa_auth_session');
+    alert('Tu sesión ha expirado tras 15 minutos de inactividad por razones de seguridad.\nPor favor ingresa nuevamente.');
+    var isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+    location.href = isLocal ? 'http://localhost:5500/00-portal-hub/index.html' : 'https://sjroca-salfa.github.io/salfa-pilotos/';
+  }
+}, 5000);
 
 function latidoPresenciaP1(email){
   try {
@@ -2905,4 +2913,54 @@ var DATA=[
 })();
 
 </script>
+<!-- Modal Selector de Portales Universal (Abre en PC y Móvil sin clippeo) -->
+<div class="salfa-modal-portales" id="modalPortales" style="display:none" onclick="if(event.target===this)salfaCerrarMenuPortales()">
+  <div class="salfa-modal-portales-dialog">
+    <div class="salfa-modal-portales-header">
+      <div>
+        <b>Ecosistema Salfa Pilotos</b>
+        <span>Acceso directo entre portales</span>
+      </div>
+      <button type="button" class="btn-close-modal" onclick="salfaCerrarMenuPortales()" title="Cerrar ventana">✕</button>
+    </div>
+    <div class="salfa-modal-portales-body">
+      <a href="https://sjroca-salfa.github.io/salfa-pilotos/" class="salfa-dd-item" data-p="hub">
+        <span class="salfa-dd-num">HUB</span>
+        <div class="salfa-dd-info"><b>Hub Central de Pilotos</b><span>Portal principal de acceso</span></div>
+        <span class="salfa-dd-tag ok">Hub</span>
+      </a>
+      <a href="https://sjroca-salfa.github.io/portal-mapa-procesos/" class="salfa-dd-item activo" data-p="01">
+        <span class="salfa-dd-num">01</span>
+        <div class="salfa-dd-info"><b>Mapa de Procesos</b><span>Operaciones y gestión</span></div>
+        <span class="salfa-dd-tag aqui">Aquí</span>
+      </a>
+      <a href="https://sjroca-salfa.github.io/portal-gestion-informacion/" class="salfa-dd-item" data-p="05">
+        <span class="salfa-dd-num">05</span>
+        <div class="salfa-dd-info"><b>Gestión de la Información</b><span>Series documentales O, D, P</span></div>
+        <span class="salfa-dd-tag ok">Activo</span>
+      </a>
+      <a href="https://sjroca-salfa.github.io/salfa-pilotos/admin.html" class="salfa-dd-item" id="ddItemAdmin" data-p="admin" style="display:none">
+        <span class="salfa-dd-num adm">ADM</span>
+        <div class="salfa-dd-info"><b>Consola de Administración</b><span>Gestión de accesos y métricas</span></div>
+        <span class="salfa-dd-tag adm">Admin</span>
+      </a>
+      <div class="salfa-dd-divider"></div>
+      <a href="https://sjroca-salfa.github.io/salfa-pilotos/02-portal-cv/" class="salfa-dd-item" data-p="02">
+        <span class="salfa-dd-num">02</span>
+        <div class="salfa-dd-info"><b>Control de CV</b><span>Gestión de personas</span></div>
+        <span class="salfa-dd-tag ok">Activo</span>
+      </a>
+      <div class="salfa-dd-item off">
+        <span class="salfa-dd-num off">03</span>
+        <div class="salfa-dd-info"><b>Gestión AWP & Construcción</b><span>Planificación y control</span></div>
+        <span class="salfa-dd-tag prox">Próximamente</span>
+      </div>
+      <div class="salfa-dd-item off">
+        <span class="salfa-dd-num off">04</span>
+        <div class="salfa-dd-info"><b>Indicadores OKR</b><span>Desarrollo estratégico</span></div>
+        <span class="salfa-dd-tag dev">En desarrollo</span>
+      </div>
+    </div>
+  </div>
+</div>
 </body></html>
