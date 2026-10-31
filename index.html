@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Portal 01 · Mapa de Procesos · Salfa Montajes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -12,18 +12,27 @@
   position: fixed; top: 0; left: 0; right: 0; height: 42px;
   background: #1E2229; color: #fff; z-index: 9999;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px; font-family: 'Barlow', Arial, sans-serif; font-size: 13px;
+  padding: max(4px, env(safe-area-inset-top, 0px)) 16px 4px;
+  font-family: 'Barlow', Arial, sans-serif; font-size: 13px;
   border-bottom: 2px solid #B01E24;
 }
 .barra-corp-top a {
   color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px;
   font-weight: 600; font-family: 'Montserrat', Arial, sans-serif; font-size: 12px;
+  min-height: 34px; padding: 0 4px;
 }
 .barra-corp-top a:hover { color: #E23B42; }
-.barra-corp-user { display: flex; align-items: center; gap: 12px; }
+.barra-corp-user { display: flex; align-items: center; gap: 10px; flex: none; }
 .barra-corp-badge {
   background: #B01E24; color: #fff; font-size: 11px; font-weight: 700;
-  padding: 2px 8px; border-radius: 2px; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 999px; text-transform: uppercase;
+}
+@media (max-width: 680px){
+  #topUserEmail { display: none; }
+  .p1-tit { display: none; }
+  .p1-sep { display: none; }
+  .barra-corp-badge { font-size: 10px; padding: 2px 6px; }
+  .chip-p1-online { font-size: 10px !important; padding: 2px 7px !important; }
 }
 body { padding-top: 42px !important; }
 </style>
@@ -73,24 +82,65 @@ body { padding-top: 42px !important; }
 </head>
 <body>
 <div class="barra-corp-top" id="barraCorpTop">
-  <a href="https://sjroca-salfa.github.io/salfa-pilotos/">
-    <span>← Volver al Hub Salfa</span>
-  </a>
-  <span style="font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:0.5px;">PORTAL 01 · MAPA DE PROCESOS</span>
+  <div style="display:flex;align-items:center;gap:12px;min-width:0">
+    <a id="p1BtnVolver" href="https://sjroca-salfa.github.io/salfa-pilotos/" title="Volver al Hub">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span class="txt-volver">Volver al Hub</span>
+    </a>
+    <span class="p1-sep" style="width:1px;height:14px;background:rgba(255,255,255,.2)"></span>
+    <span class="p1-tit" style="font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:0.5px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">01 · MAPA DE PROCESOS</span>
+  </div>
   <div class="barra-corp-user">
-    <span id="topUserEmail"></span>
-    <span class="barra-corp-badge" id="topUserRol"></span>
+    <span class="chip-p1-online" id="chipPresenciaP1" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">
+      <i style="width:7px;height:7px;border-radius:50%;background:#3ddc84;display:inline-block;box-shadow:0 0 0 2px rgba(61,220,132,.35)"></i>
+      <b id="p1OnlineNum">1</b> en línea
+    </span>
+    <span class="barra-corp-badge" id="topUserRol">Administrador</span>
+    <span id="topUserEmail" style="font-size:12px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></span>
   </div>
 </div>
 <script>
+function latidoPresenciaP1(email){
+  try {
+    var presKey = 'salfa_presencia_mem_v1';
+    var pres = {};
+    try { pres = JSON.parse(localStorage.getItem(presKey)) || {}; } catch(e){}
+    var userMail = String(email || 'sjroca@salfamontajes.com').toLowerCase();
+    var now = Date.now();
+    pres[userMail + '|mapa'] = now;
+    Object.keys(pres).forEach(function(k){ if(now - pres[k] > 150000) delete pres[k]; });
+    localStorage.setItem(presKey, JSON.stringify(pres));
+    
+    var enMapa = 0;
+    Object.keys(pres).forEach(function(k){
+      if(now - pres[k] <= 150000 && k.endsWith('|mapa')) enMapa++;
+    });
+    if(enMapa === 0) enMapa = 1;
+    var countEl = document.getElementById('p1OnlineNum');
+    if(countEl) countEl.textContent = enMapa;
+  } catch(e){}
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   var u = window.__SESION_USUARIO;
-  if (u) {
-    var eEl = document.getElementById('topUserEmail');
-    var rEl = document.getElementById('topUserRol');
-    if (eEl) eEl.textContent = u.email;
-    if (rEl) rEl.textContent = u.rol;
+  var userEmail = (u && u.email) || 'sjroca@salfamontajes.com';
+  var userRol = (u && u.rol) || 'Administrador';
+  
+  var eEl = document.getElementById('topUserEmail');
+  var rEl = document.getElementById('topUserRol');
+  if (eEl) eEl.textContent = userEmail;
+  if (rEl) rEl.textContent = userRol;
+
+  var btnV = document.getElementById('p1BtnVolver');
+  if(btnV && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')){
+    btnV.href = 'http://localhost:5500/';
   }
+
+  latidoPresenciaP1(userEmail);
+  setInterval(function(){ latidoPresenciaP1(userEmail); }, 25000);
+  window.addEventListener('storage', function(e){
+    if(e.key === 'salfa_presencia_mem_v1') latidoPresenciaP1(userEmail);
+  });
 });
 </script>
 <style>
