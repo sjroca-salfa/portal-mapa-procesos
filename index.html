@@ -20,6 +20,23 @@
   border-bottom: 2px solid #B01E24;
   box-sizing: border-box;
 }
+.barra-corp-top::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #B01E24 25%, #ff4d5a 50%, #B01E24 75%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmerBarraCorp 6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes shimmerBarraCorp {
+  0% { background-position: -200% 0; }
+  50% { background-position: 200% 0; }
+  100% { background-position: 200% 0; }
+}
 .barra-corp-top a {
   color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px;
   font-weight: 600; font-family: 'Montserrat', Arial, sans-serif; font-size: 12px;
