@@ -2,3 +2,8 @@
 .git
 node_modules
 *.zip
+
+# Entrega Seguridad Ola 1
+.clasp.json
+_respaldo/
+node_modules/
